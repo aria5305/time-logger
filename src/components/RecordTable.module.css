@@ -1,0 +1,14 @@
+.recordContainer {
+        display: grid;
+        margin: 0 2rem;
+        margin-top: 3rem;
+        grid-template-columns: repeat(4, 1fr);
+        border-top: 1px solid #fff;
+        border-right: 1px solid #fff;
+}
+
+.recordContainer > div {
+        padding: 0.8rem 0.4rem;
+        border-left: 1px solid #fff;
+        border-bottom: 1px solid #fff;
+}

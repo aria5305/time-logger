@@ -1,0 +1,74 @@
+*,
+*::before,
+*::after {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+}
+
+html {
+        font-size: 62.5%;
+        box-sizing: inherit;
+}
+
+.App {
+        background-color: #282c34;
+        height: 100vh;
+        text-align: center;
+        color: #fff;
+        font-size: 1.5rem;
+}
+
+header {
+        padding-top: 2rem;
+}
+
+.time {
+        font-size: 10rem;
+        font-weight: 300;
+}
+
+.buttonContainer {
+        margin-top: 3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+}
+
+.btn,
+.btn__off {
+        background-color: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        color: white;
+        border-radius: 2rem;
+        padding: 2rem 1.5rem;
+        margin-right: 2rem;
+        width: 15%;
+        transition: all 0.3s;
+}
+
+.btn__off {
+        background-color: #c92e1d;
+        transform: all 0.3s;
+        border: none;
+}
+
+.btn__off:hover {
+        background-color: #a31404;
+        transform: translate(0rem, 0.3rem);
+}
+
+.btn:hover {
+        background-color: #fff;
+        color: #282c34;
+        transform: translate(0rem, 0.3rem);
+}
+
+.btn:active {
+        transform: scale(0.9);
+}
+
+.btn:focus,
+.btn__off:focus {
+        outline: none;
+}
