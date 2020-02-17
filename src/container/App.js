@@ -3,6 +3,8 @@ import logo from '../asset/logo.svg'
 import styles from './App.module.css';
 import TimeHeader from '../components/TimeHeader.js';
 import RecordTable from '../components/RecordTable.js';
+import storage from'../components/storage.js';
+import Aux from '../components/Auxillary.js'
 
 class App extends Component{
   constructor(props) {
@@ -17,10 +19,6 @@ class App extends Component{
         details:[
           {key:0, startTime: '19:38:00', endTime:'19:39:00',totalTime:'00:01:00',day:'Fri 14/02 2020'}
         ]
-        // startTime :[],
-        // endTime:[],
-        // totalTime:[],
-        // days:[]
     }
   }
 
@@ -63,12 +61,13 @@ class App extends Component{
           seconds:seconds
       })
 
-      
-
-     
+    
 
   
   }
+
+ 
+   
 
   toggleHandler = () => {
       const SignIn = this.state.showSignIn;
@@ -93,7 +92,39 @@ class App extends Component{
 
   componentWillMount() {
       this.getTime();
+      
+      let storageLocal = JSON.parse(window.localStorage.getItem('data'));
+      
+      if(storageLocal === null ){
+        storageLocal = 
+        [{key:0, startTime: '19:38:00', endTime:'19:39:00',totalTime:'00:01:00',day:'Fri 14/02 2020'}
+        ]
+      }
+
+
+      
+      console.log(storage.length , "storage legnth");
+      
+
+      if(storageLocal !== null){
+        if(storageLocal !== [] && storage.length === 0){
+            for( let i = 0; i < storageLocal.length; i++){
+                storage.push(storageLocal[i]);
+                console.log(storage, "storage");
+              }
+            }}
+  
+
+      
+      let newArray = this.state.details.slice();
+      newArray = storage;     
+      this.setState( 
+            {details:newArray}
+      )
+
+      console.log(this.state);
   }
+
 
 
 
@@ -116,6 +147,7 @@ class App extends Component{
           second:this.state.seconds
       }
 
+      
 
       this.state.details.push({
         key: this.state.details.length,
@@ -123,8 +155,8 @@ class App extends Component{
         endTime:'',
         totalTime:'',
         day:this.state.actualDate})
-
-    }
+    
+      }
 
   
 
@@ -134,7 +166,7 @@ class App extends Component{
       const time = {
         hour:this.state.hours,
         minute: this.state.minutes,
-        second:this.state.seconds
+        second:this.state.seconds,
       }
   
       
@@ -179,7 +211,13 @@ class App extends Component{
    
     diff = diffHours + ':' + diffMinutes + ':' + diffSeconds; 
 
-    console.log(diff);
+
+    storage[storage.length -1].endTime = time.hour + ':' + time.minute + ':' + time.second
+    storage[storage.length -1].totalTime = diff; 
+
+
+    //Storing start, end, total time and date to local storage
+    localStorage.setItem('data', JSON.stringify(storage));
 
     this.setState( 
           
@@ -238,7 +276,6 @@ class App extends Component{
                
             </div>
   
-
             <RecordTable details={this.state.details}></RecordTable>
 
         </div>
