@@ -76,13 +76,10 @@ class App extends Component{
         showSignOff: !SignOut
       });
 
-      console.log(this.state.showSignIn, this.state.showSignOff)
+     
     }
 
 
-
-
-  
 
 
   
@@ -102,7 +99,7 @@ class App extends Component{
 
 
       
-      console.log(storage.length , "storage legnth");
+      // console.log(storage.length , "storage legnth");
       
 
       if(storageLocal !== null){
@@ -115,13 +112,12 @@ class App extends Component{
   
 
       
-      let newArray = this.state.details.slice();
-      newArray = storage;     
-      this.setState( 
-            {details:newArray}
-      )
+            let newArray = this.state.details.slice();
+            newArray = storage;     
+            this.setState( 
+                  {details:newArray}
+            )
 
-      console.log(this.state);
   }
 
 
@@ -143,18 +139,23 @@ class App extends Component{
           date:this.state.actualDate,
           hour:this.state.hours,
           minute: this.state.minutes,
-          second:this.state.seconds
-      }
+          seconds:this.state.seconds
+        }
 
       
-
-      this.state.details.push({
+      storage.push({
         key: this.state.details.length,
-        startTime:time.hour + ':' + time.minute + ':' + time.second,
-        endTime:'',
-        totalTime:'',
-        day:this.state.actualDate})
+          startTime:time.hour + ':' + time.minute + ':' + time.seconds,
+          endTime:'',
+          totalTime:'',
+          day:this.state.actualDate})
     
+        let newArray = this.state.details.slice();
+        newArray = storage;     
+        this.setState( 
+              {details:newArray}
+        )
+        
       }
 
   
@@ -181,66 +182,65 @@ class App extends Component{
           const a = this.state.details[this.state.details.length -1].startTime.split(':');
           const b =  this.state.details[this.state.details.length -1].endTime.split(':');
 
-          console.log(a,b)
          
           
           const Startingseconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
           const endingSeconds = (+b[0]) * 60 * 60 + (+b[1]) * 60 + (+b[2]);  
 
-          console.log(Startingseconds, endingSeconds)
+  
 
           let diff = endingSeconds - Startingseconds; 
             // console.log(diff);
           
             
 
-    let diffHours = Math.floor(diff / 3600); 
-    diff %= 3600; 
-    let diffMinutes = Math.floor(diff / 60); 
-    let diffSeconds = diff % 60; 
+            let diffHours = Math.floor(diff / 3600); 
+            diff %= 3600; 
+            let diffMinutes = Math.floor(diff / 60); 
+            let diffSeconds = diff % 60; 
 
 
-    diffHours = diffHours.toString();
-    diffMinutes = diffMinutes.toString();
-    diffSeconds = diffSeconds.toString(); 
+            diffHours = diffHours.toString();
+            diffMinutes = diffMinutes.toString();
+            diffSeconds = diffSeconds.toString(); 
 
-    if(diffHours.length < 2) diffHours = '0'+ diffHours; 
-    if(diffMinutes.length < 2) diffMinutes = '0'+ diffMinutes; 
-    if(diffSeconds.length < 2) diffSeconds = '0'+ diffSeconds; 
-   
-    diff = diffHours + ':' + diffMinutes + ':' + diffSeconds; 
-
-
-    storage[storage.length -1].endTime = time.hour + ':' + time.minute + ':' + time.second
-    storage[storage.length -1].totalTime = diff; 
-
-
-    //Storing start, end, total time and date to local storage
-    localStorage.setItem('data', JSON.stringify(storage));
-
-    this.setState( 
+            if(diffHours.length < 2) diffHours = '0'+ diffHours; 
+            if(diffMinutes.length < 2) diffMinutes = '0'+ diffMinutes; 
+            if(diffSeconds.length < 2) diffSeconds = '0'+ diffSeconds; 
           
-      (prevState) => ({
-      details:prevState.details.map(
-        el => el.key === this.state.details[this.state.details.length - 1].key ? 
-        {...el, totalTime:diff}  : el)
-      
-      }))
-          }); 
-          
-
-  
-    }
+            diff = diffHours + ':' + diffMinutes + ':' + diffSeconds; 
 
 
+            storage[storage.length -1].endTime = time.hour + ':' + time.minute + ':' + time.second
+            storage[storage.length -1].totalTime = diff; 
 
-  
+            //Storing start, end, total time and date to local storage
+            localStorage.setItem('data', JSON.stringify(storage));
+
+      this.setState( 
+            
+        (prevState) => ({
+        details:prevState.details.map(
+          el => el.key === this.state.details[this.state.details.length - 1].key ? 
+          {...el, totalTime:diff}  : el)
+        
+        }))
+            }); 
+            
+
+    
+      }
+
+
+
+    
 
 
     
 
 
   render(){  
+
 
     
 
