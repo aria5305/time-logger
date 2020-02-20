@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import logo from '../asset/logo.svg'
 import styles from './App.module.css';
 import TimeHeader from '../components/TimeHeader.js';
 import RecordTable from '../components/RecordTable.js';
+import storage from'../components/storage.js';
+import Aux from '../components/Auxillary.js'
 
 class App extends Component{
   constructor(props) {
@@ -17,10 +18,6 @@ class App extends Component{
         details:[
           {key:0, startTime: '19:38:00', endTime:'19:39:00',totalTime:'00:01:00',day:'Fri 14/02 2020'}
         ]
-        // startTime :[],
-        // endTime:[],
-        // totalTime:[],
-        // days:[]
     }
   }
 
@@ -63,12 +60,13 @@ class App extends Component{
           seconds:seconds
       })
 
-      
-
-     
+    
 
   
   }
+
+ 
+   
 
   toggleHandler = () => {
       const SignIn = this.state.showSignIn;
@@ -78,7 +76,7 @@ class App extends Component{
         showSignOff: !SignOut
       });
 
-      console.log(this.state.showSignIn, this.state.showSignOff)
+     
     }
 
 
@@ -87,13 +85,41 @@ class App extends Component{
   
 
 
-  
-
-
 
   componentWillMount() {
       this.getTime();
+      
+      let storageLocal = JSON.parse(window.localStorage.getItem('data'));
+      
+      if(storageLocal === null ){
+        storageLocal = 
+        [{key:0, startTime: '19:38:00', endTime:'19:39:00',totalTime:'00:01:00',day:'Fri 14/02 2020'}
+        ]
+      }
+
+
+      
+      // console.log(storage.length , "storage legnth");
+      
+
+      if(storageLocal !== null){
+        if(storageLocal !== [] && storage.length === 0){
+            for( let i = 0; i < storageLocal.length; i++){
+                storage.push(storageLocal[i]);
+                console.log(storage, "storage");
+              }
+            }}
+  
+
+      
+            let newArray = this.state.details.slice();
+            newArray = storage;     
+            this.setState( 
+                  {details:newArray}
+            )
+
   }
+
 
 
 
@@ -113,18 +139,24 @@ class App extends Component{
           date:this.state.actualDate,
           hour:this.state.hours,
           minute: this.state.minutes,
-          second:this.state.seconds
-      }
+          seconds:this.state.seconds
+        }
 
-
-      this.state.details.push({
+      
+      storage.push({
         key: this.state.details.length,
-        startTime:time.hour + ':' + time.minute + ':' + time.second,
-        endTime:'',
-        totalTime:'',
-        day:this.state.actualDate})
-
-    }
+          startTime:time.hour + ':' + time.minute + ':' + time.seconds,
+          endTime:'',
+          totalTime:'',
+          day:this.state.actualDate})
+    
+        let newArray = this.state.details.slice();
+        newArray = storage;     
+        this.setState( 
+              {details:newArray}
+        )
+        
+      }
 
   
 
@@ -134,7 +166,7 @@ class App extends Component{
       const time = {
         hour:this.state.hours,
         minute: this.state.minutes,
-        second:this.state.seconds
+        second:this.state.seconds,
       }
   
       
@@ -150,60 +182,65 @@ class App extends Component{
           const a = this.state.details[this.state.details.length -1].startTime.split(':');
           const b =  this.state.details[this.state.details.length -1].endTime.split(':');
 
-          console.log(a,b)
          
           
           const Startingseconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
           const endingSeconds = (+b[0]) * 60 * 60 + (+b[1]) * 60 + (+b[2]);  
 
-          console.log(Startingseconds, endingSeconds)
+  
 
           let diff = endingSeconds - Startingseconds; 
             // console.log(diff);
           
             
 
-    let diffHours = Math.floor(diff / 3600); 
-    diff %= 3600; 
-    let diffMinutes = Math.floor(diff / 60); 
-    let diffSeconds = diff % 60; 
+            let diffHours = Math.floor(diff / 3600); 
+            diff %= 3600; 
+            let diffMinutes = Math.floor(diff / 60); 
+            let diffSeconds = diff % 60; 
 
 
-    diffHours = diffHours.toString();
-    diffMinutes = diffMinutes.toString();
-    diffSeconds = diffSeconds.toString(); 
+            diffHours = diffHours.toString();
+            diffMinutes = diffMinutes.toString();
+            diffSeconds = diffSeconds.toString(); 
 
-    if(diffHours.length < 2) diffHours = '0'+ diffHours; 
-    if(diffMinutes.length < 2) diffMinutes = '0'+ diffMinutes; 
-    if(diffSeconds.length < 2) diffSeconds = '0'+ diffSeconds; 
-   
-    diff = diffHours + ':' + diffMinutes + ':' + diffSeconds; 
-
-    console.log(diff);
-
-    this.setState( 
+            if(diffHours.length < 2) diffHours = '0'+ diffHours; 
+            if(diffMinutes.length < 2) diffMinutes = '0'+ diffMinutes; 
+            if(diffSeconds.length < 2) diffSeconds = '0'+ diffSeconds; 
           
-      (prevState) => ({
-      details:prevState.details.map(
-        el => el.key === this.state.details[this.state.details.length - 1].key ? 
-        {...el, totalTime:diff}  : el)
-      
-      }))
-          }); 
-          
-
-  
-    }
+            diff = diffHours + ':' + diffMinutes + ':' + diffSeconds; 
 
 
+            storage[storage.length -1].endTime = time.hour + ':' + time.minute + ':' + time.second
+            storage[storage.length -1].totalTime = diff; 
 
-  
+            //Storing start, end, total time and date to local storage
+            localStorage.setItem('data', JSON.stringify(storage));
+
+      this.setState( 
+            
+        (prevState) => ({
+        details:prevState.details.map(
+          el => el.key === this.state.details[this.state.details.length - 1].key ? 
+          {...el, totalTime:diff}  : el)
+        
+        }))
+            }); 
+            
+
+    
+      }
+
+
+
+    
 
 
     
 
 
   render(){  
+
 
     
 
@@ -238,7 +275,6 @@ class App extends Component{
                
             </div>
   
-
             <RecordTable details={this.state.details}></RecordTable>
 
         </div>

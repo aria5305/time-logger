@@ -1,7 +1,7 @@
 import React from 'react' ;
 import styles from './RecordTable.module.css'
 import RecordLine from './RecordLine.js'
-
+import storage from './storage.js'
 
 const RecordTable = (props) => {
 
@@ -14,44 +14,8 @@ return (
 
 
         <RecordLine details={props.details}></RecordLine>
-        {/* {props.days.map( (date) => {
-              props.startTime.map( (starting) => {
-        return(
 
-            <div>
-                <div>
-                    {date}
-                </div>
-
-                <div>
-                {starting}
-            </div>
-          
-
-
-        )})
-        } */}
-
-      
-        
-{/* 
-        {props.endTime.map( (ending) => {
-            return(
-                <div>
-                    {ending}
-                </div>
-            )})
-        }
-
-        {props.diff.map( (difference) => {
-            return(
-                <div>
-                    {difference}
-                </div>
-            )})
-        }        */}
-   
-
+     
 
     </div>
 )
