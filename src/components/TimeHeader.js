@@ -1,4 +1,4 @@
-import React  from 'react';
+import React, { Component }  from 'react';
 import styles from './TimeHeader.module.css'
 
 const TimeHeader = props => {
@@ -6,11 +6,11 @@ const TimeHeader = props => {
 return (
     <div>
         <h1 className={styles.time}>
-                {props.hours}:{props.minutes}:{props.seconds}
+                {props.hours}:{props.minutes}
         </h1>
         <h2>{props.actualDate}</h2>
     </div>
 )
 
 }
-export default TimeHeader;
+export default React.memo(TimeHeader);
