@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from '../asset/logo.svg'
 import styles from './App.module.css';
 import TimeHeader from '../components/TimeHeader.js';
 import RecordTable from '../components/RecordTable.js';
