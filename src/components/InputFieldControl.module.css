@@ -1,0 +1,25 @@
+.btn {
+        background-color: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        color: white;
+        border-radius: 2rem;
+        padding: 2rem 1.5rem;
+        margin-right: 2rem;
+        width: 15%;
+        transition: all 0.3s;
+}
+
+.btn:hover {
+        background-color: #fff;
+        color: #282c34;
+        transform: translate(0rem, 0.3rem);
+}
+
+.btn:active {
+        transform: scale(0.9);
+}
+
+.btn:focus,
+.btn__off:focus {
+        outline: none;
+}

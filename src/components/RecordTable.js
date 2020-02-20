@@ -1,7 +1,6 @@
 import React from 'react' ;
 import styles from './RecordTable.module.css'
 import RecordLine from './RecordLine.js'
-import storage from './storage.js'
 
 const RecordTable = (props) => {
 
